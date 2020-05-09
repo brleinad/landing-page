@@ -25,6 +25,11 @@
  * 
 */
 
+function isElementInViewPort(element) {
+   const rect = element.getBoundingClientRect();
+   //return ((rect.top >= -rect.height) && (rect.top <= window.innerHeight));
+   return ((rect.top >= 0) && (rect.bottom <= window.innerHeight));
+}
 
 
 /**
@@ -33,11 +38,35 @@
  * 
 */
 
-// build the nav
+function buildMenu() {
+   // build the nav
+   const sections = document.querySelectorAll('section');
+   const navbar = document.querySelector('#navbar__list');
+
+   for (section of sections) {
+      const navItem = document.createElement('li');
+      const navItemAnchor = document.createElement('a');
+      navItemAnchor.textContent = section.querySelector('h2').textContent; 
+      navItemAnchor.className = 'menu__link';
+      navItemAnchor.setAttribute('href', '#' + section.id);
+
+      navItem.appendChild(navItemAnchor);
+      navbar.appendChild(navItem);
+   } 
+}
 
 
 // Add class 'active' to section when near top of viewport
-
+function activateSection(event) {
+   const sections = document.querySelectorAll('section');
+   for (section of sections) {
+      section.className = '';
+      if (isElementInViewPort(section)) {
+         section.className = 'active-section';
+         console.log(section.id);
+      }
+   }
+}
 
 // Scroll to anchor ID using scrollTO event
 
@@ -48,10 +77,8 @@
  * 
 */
 
-// Build menu 
-
-// Scroll to section on link click
-
+buildMenu();
 // Set sections as active
-
+document.addEventListener('scroll', activateSection);
+// Scroll to section on link click
 
