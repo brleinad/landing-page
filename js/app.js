@@ -54,7 +54,7 @@ function buildMenu() {
    for (section of sections) {
       const navItem = document.createElement('li');
       const navItemAnchor = document.createElement('a');
-      navItemAnchor.textContent = section.querySelector('h2').textContent; 
+      navItemAnchor.textContent = section.id.match(/\d/)[0]; //get the number
       navItemAnchor.className = 'menu__link';
       navItemAnchor.setAttribute('href', '#' + section.id);
 
@@ -89,7 +89,10 @@ function scrollToSection(event) {
    const rect = section.getBoundingClientRect();
    const bodyRect = document.body.getBoundingClientRect();
    //sectionTop = rect.top - bodyRect.top + rect.height/2;
-   sectionTop = rect.top + window.scrollY - SECTION_PADDING;
+   const sectionDiv = section.querySelector('.landing__container');
+   const sectionPadding = parseInt(window.getComputedStyle(sectionDiv).padding);
+   console.log(`BOB: ${sectionPadding}`);
+   sectionTop = rect.top + window.scrollY - sectionPadding;
 
    //section.scrollIntoView();
    window.scrollTo({
@@ -114,6 +117,5 @@ document.addEventListener('scroll', activateSection);
 sectionLinks = document.querySelectorAll('.menu__link');
 for (link of sectionLinks) {
    link.addEventListener('click', scrollToSection);
-   //document.addEventListener('scollTo', scrollToSection);
 }
 

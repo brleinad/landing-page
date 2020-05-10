@@ -64,6 +64,27 @@ section {
 /* ---- Module Rules ---- */
 
 /* Navigation Styles*/
+.navbar__menu {
+   display: flex;
+   flex-flow: row nowrap;
+   align-items: center;
+   justify-content: space-between;
+}
+
+.navbar__menu p a {
+   text-align: left;
+   color: #000;
+   text-decoration: none;
+   font-weight: bold;
+    padding: 1em;
+}
+
+.navbar__menu p a:hover {
+   background: #333;
+   color: #fff;
+   transition: ease 0.3s all;
+}
+
 .navbar__menu ul {
     padding-left: 0;
     margin: 0;
@@ -72,6 +93,7 @@ section {
 
 .navbar__menu li {
     display: inline-block;
+    color: #000;
 }
 
 .navbar__menu .menu__link {
