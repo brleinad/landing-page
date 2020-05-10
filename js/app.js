@@ -18,6 +18,7 @@
  * 
 */
 
+const SECTION_PADDING = 64;
 
 /**
  * End Global Variables
@@ -25,6 +26,10 @@
  * 
 */
 
+/**
+ * @description Determine if an element is in the viewport
+ * @param {Element} element 
+ */
 function isElementInViewPort(element) {
    const rect = element.getBoundingClientRect();
    //return ((rect.top >= -rect.height) && (rect.top <= window.innerHeight));
@@ -38,6 +43,9 @@ function isElementInViewPort(element) {
  * 
 */
 
+/**
+* @description Build the menu navbar list items
+*/
 function buildMenu() {
    // build the nav
    const sections = document.querySelectorAll('section');
@@ -56,7 +64,10 @@ function buildMenu() {
 }
 
 
-// Add class 'active' to section when near top of viewport
+/**
+* @description Add class 'active' to section when near top of viewport
+* @param {Event} event
+*/
 function activateSection(event) {
    const sections = document.querySelectorAll('section');
    for (section of sections) {
@@ -68,7 +79,26 @@ function activateSection(event) {
    }
 }
 
-// Scroll to anchor ID using scrollTO event
+/**
+* @description Scroll to anchor ID using scrollTO event
+* @param {Event} event
+*/
+function scrollToSection(event) {
+   event.preventDefault();
+   const section = document.querySelector(event.target.attributes.href.value);
+   const rect = section.getBoundingClientRect();
+   const bodyRect = document.body.getBoundingClientRect();
+   //sectionTop = rect.top - bodyRect.top + rect.height/2;
+   sectionTop = rect.top + window.scrollY - SECTION_PADDING;
+
+   //section.scrollIntoView();
+   window.scrollTo({
+      top: sectionTop,
+      left: window.screenLeft,
+      behavior: 'smooth'
+   });
+   console.log(`Going to ${section.id}, TOP:${sectionTop}`);
+}
 
 
 /**
@@ -81,4 +111,9 @@ buildMenu();
 // Set sections as active
 document.addEventListener('scroll', activateSection);
 // Scroll to section on link click
+sectionLinks = document.querySelectorAll('.menu__link');
+for (link of sectionLinks) {
+   link.addEventListener('click', scrollToSection);
+   //document.addEventListener('scollTo', scrollToSection);
+}
 
