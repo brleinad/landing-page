@@ -18,8 +18,6 @@
  * 
 */
 
-const SECTION_PADDING = 64;
-
 /**
  * End Global Variables
  * Start Helper Functions
@@ -32,10 +30,44 @@ const SECTION_PADDING = 64;
  */
 function isElementInViewPort(element) {
    const rect = element.getBoundingClientRect();
-   //return ((rect.top >= -rect.height) && (rect.top <= window.innerHeight));
    return ((rect.top >= 0) && (rect.bottom <= window.innerHeight));
 }
 
+/**
+ * @description get the top position of a section to be used in scrollTo function.
+ * @param {HTMLSectionElement} section -  
+ */
+function getSectionTop(section) {
+   const rect = section.getBoundingClientRect();
+   const bodyRect = document.body.getBoundingClientRect();
+   const sectionChild = section.firstElementChild;
+   const sectionPadding = parseInt(window.getComputedStyle(sectionChild).padding);
+   sectionTop = rect.top + window.scrollY - sectionPadding;
+   return (sectionTop);
+}
+
+/**
+ * @description Create a nav item given a section ID
+ * @param {string} sectionId - The section's ID to be used as reference
+ */
+function makeNavItem(sectionId) {
+   const navItem = document.createElement('li');
+   navItemAnchor = makeNavItemAnchor(sectionId);
+   navItem.appendChild(navItemAnchor);
+   return navItem;
+}
+
+/**
+ * @description Create a nav item anchor given a section ID
+ * @param {string} sectionId - The section's ID to be used as reference
+ */
+function makeNavItemAnchor(sectionId) {
+   const navItemAnchor = document.createElement('a');
+   navItemAnchor.textContent = sectionId.match(/\d/)[0]; //get the number
+   navItemAnchor.className = 'menu__link';
+   navItemAnchor.setAttribute('href', '#' + sectionId);
+   return navItemAnchor;
+}
 
 /**
  * End Helper Functions
@@ -52,14 +84,7 @@ function buildMenu() {
    const navbar = document.querySelector('#navbar__list');
 
    for (section of sections) {
-      const navItem = document.createElement('li');
-      const navItemAnchor = document.createElement('a');
-      navItemAnchor.textContent = section.id.match(/\d/)[0]; //get the number
-      navItemAnchor.className = 'menu__link';
-      navItemAnchor.setAttribute('href', '#' + section.id);
-
-      navItem.appendChild(navItemAnchor);
-      navbar.appendChild(navItem);
+      navbar.appendChild(makeNavItem(section.id));
    } 
 }
 
@@ -84,23 +109,16 @@ function activateSection(event) {
 * @param {Event} event
 */
 function scrollToSection(event) {
+   //stop fast scrolling when clicking a link
    event.preventDefault();
+   //Get section from clicked link's href
    const section = document.querySelector(event.target.attributes.href.value);
-   const rect = section.getBoundingClientRect();
-   const bodyRect = document.body.getBoundingClientRect();
-   //sectionTop = rect.top - bodyRect.top + rect.height/2;
-   const sectionDiv = section.querySelector('.landing__container');
-   const sectionPadding = parseInt(window.getComputedStyle(sectionDiv).padding);
-   console.log(`BOB: ${sectionPadding}`);
-   sectionTop = rect.top + window.scrollY - sectionPadding;
 
-   //section.scrollIntoView();
    window.scrollTo({
-      top: sectionTop,
+      top: getSectionTop(section),
       left: window.screenLeft,
       behavior: 'smooth'
    });
-   console.log(`Going to ${section.id}, TOP:${sectionTop}`);
 }
 
 
