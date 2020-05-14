@@ -66,6 +66,7 @@ function makeNavItemAnchor(sectionId) {
    navItemAnchor.textContent = sectionId.match(/\d/)[0]; //get the number
    navItemAnchor.className = 'menu__link';
    navItemAnchor.setAttribute('href', '#' + sectionId);
+   navItemAnchor.setAttribute('id', sectionId + 'link');
    return navItemAnchor;
 }
 
@@ -104,6 +105,22 @@ function activateSection(event) {
    }
 }
 
+/*
+ * @description add the class 'active' to the section item in the nav bar corresponding to the active section.
+ * */
+function activateNavItem(event) {
+   const sections = document.querySelectorAll('section');
+   for (section of sections) {
+      const itemId = '#' + section.id + 'link';
+      const navItem = document.querySelector(itemId);
+      navItem.setAttribute('class', 'menu__link');
+      if (isElementInViewPort(section)) {
+         console.log(itemId);
+         navItem.setAttribute('class', 'active-menu__link');
+      }
+   }
+}
+
 /**
 * @description Scroll to anchor ID using scrollTO event
 * @param {Event} event
@@ -131,6 +148,7 @@ function scrollToSection(event) {
 buildMenu();
 // Set sections as active
 document.addEventListener('scroll', activateSection);
+document.addEventListener('scroll', activateNavItem);
 // Scroll to section on link click
 sectionLinks = document.querySelectorAll('.menu__link');
 for (link of sectionLinks) {

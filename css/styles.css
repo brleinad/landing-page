@@ -110,6 +110,17 @@ section {
     transition: ease 0.3s all;
 }
 
+.navbar__menu .active-menu__link {
+    display: block;
+    padding: 1em;
+    font-weight: bold;
+    text-decoration: none;
+    color: #000;
+    background: #333;
+    color: #fff;
+    transition: ease 0.3s all;
+}
+
 /* Header Styles */
 .page__header {
     background: #fff;
