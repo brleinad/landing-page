@@ -1,6 +1,7 @@
 # Landing Page Project
 
 This is the second project for the Udacity FrontEnd developer nanodegree program.
+It provided practice on vanilla javascript and using the DOM API.
 
 ## Table of Contents
 
