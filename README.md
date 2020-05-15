@@ -1,5 +1,7 @@
 # Landing Page Project
 
+This is the second project for the Udacity FrontEnd developer nanodegree program.
+
 ## Table of Contents
 
 * [Instructions](#instructions)
